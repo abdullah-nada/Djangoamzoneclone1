@@ -25,6 +25,9 @@ class Product(models.Model):
         self.slug=slugify(self.name)
         super(Product,self).save(*args,**kwargs)
 
+    def __str__(self):
+        return self.name
+
 
 class Productimg(models.Model):
     product=models.ForeignKey("Product",related_name='pr_img',verbose_name=_('product'), on_delete=models.CASCADE)
@@ -41,6 +44,12 @@ class Brand(models.Model):
         self.slug=slugify(self.name)
         super(Brand,self).save(*args ,**kwargs)
 
+
+    def __str__(self):
+        return self.name
+    
+
+
 class Review(models.Model):
     user=models.ForeignKey(User,verbose_name=_('user'),on_delete=models.SET_NULL,null=True)
     product=models.ForeignKey("Product",related_name='review_product',verbose_name=_('product') ,on_delete=models.CASCADE)
@@ -48,4 +57,6 @@ class Review(models.Model):
     rate=models.IntegerField(_("rate"),choice=[(i,i) for i in range(1,6)])
     date=models.DateTimeField(defalut=timezone.now)
 
-
+    
+    def __str__(self):
+        return f"{self.user}   {self.product} {self.rate}"
