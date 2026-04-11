@@ -42,8 +42,7 @@ class Brand(models.Model):
 
     def save (self,*args ,**kwargs):
         self.slug=slugify(self.name)
-        super(Brand,self).save(*args ,**kwargs)
-
+        super(Brand,self).save(*args,**kwargs)
 
     def __str__(self):
         return self.name
@@ -54,9 +53,8 @@ class Review(models.Model):
     user=models.ForeignKey(User,verbose_name=_('user'),on_delete=models.SET_NULL,null=True)
     product=models.ForeignKey("Product",related_name='review_product',verbose_name=_('product') ,on_delete=models.CASCADE)
     review=models.TextField(_("review"),max_length=400)
-    rate=models.IntegerField(_("rate"),choice=[(i,i) for i in range(1,6)])
-    date=models.DateTimeField(defalut=timezone.now)
+    rate=models.IntegerField(_("rate"),choices=[(i,i) for i in range(1,6)])
+    date=models.DateTimeField(default=timezone.now)
 
-    
     def __str__(self):
-        return f"{self.user}   {self.product} {self.rate}"
+        return f"{self.user} - {self.product} - {self.rate}"
